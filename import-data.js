@@ -49,11 +49,33 @@ async function pushJsonMongoose(model) {
     }
 }
 
+async function queryOneLocation(yolegang, id) {
+    // const kkchaud = yolegang.collection('inventory').find( { _id: id } );
+    const kkchaud = await yolegang.findById(id);
+    // const kkchaud = yolegang.find({ _id: ObjectId(id) });
+
+    console.log(kkchaud.address);
+}
+
+async function queryAllLocations(yolegang, myFilmName) {
+    // const kkchaud = yolegang.collection('inventory').find( { _id: id } );
+    //const kkchaud = await yolegang.findById(id);
+    const kkchaud = await yolegang.find({ filmName: myFilmName });
+    console.log("NO WAY");
+    console.log(kkchaud[0].address);
+    for (let i of kkchaud) {
+        console.log(i.address);
+    }
+}
+
+
 async function main() {
     await mongoose.connect(process.env.MONGO_URI).then(()=> {console.log('Connected !')});
     const yolegang = mongoose.model('Locations', Locations);
     //console.log(filmingLocations);
-    await pushJsonMongoose(yolegang);
+    // await pushJsonMongoose(yolegang);
+    await queryOneLocation(yolegang, "633f1d9d5a0b7c9310c141fa");
+    await queryAllLocations(yolegang, "Une jeune fille qui va bien");
     console.log("Done!");
 }
 
